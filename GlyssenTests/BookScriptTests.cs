@@ -2129,6 +2129,19 @@ namespace GlyssenTests
 			Assert.IsFalse(origMark1_4Blocks.Select(b => b.GetText(true)).SequenceEqual(clone.GetBlocksForVerse(1, 4).Select(b => b.GetText(true))));
 			Assert.IsTrue(origMark2_1Blocks.Select(b => b.GetText(true)).SequenceEqual(clone.GetBlocksForVerse(2, 1).Select(b => b.GetText(true))));
 		}
+
+		[Test]
+		public void Parse_SourceContainsVerseSplit_ParsesCorrectly()
+		{
+			// currently we are treating a split as if it were a verse bridge
+			ControlCharacterVerseData.TabDelimitedCharacterVerseData = Resources.TestCharacterVerseOct2015;
+			CharacterDetailData.TabDelimitedCharacterDetailData = Resources.TestCharacterDetailOct2015;
+			var testProject = TestProject.CreateTestProject(TestProject.TestBook.IIIJNSPLIT);
+			var testVerse = (Verse)testProject.IncludedBooks[0].Blocks[3].BlockElements[2];
+			Assert.AreEqual("2,3", testVerse.Number);
+			Assert.AreEqual(2, testVerse.StartVerse);
+			Assert.AreEqual(3, testVerse.EndVerse);
+		}
 	}
 
 	internal static class BlockTestExtensions

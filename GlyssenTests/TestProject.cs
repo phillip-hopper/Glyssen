@@ -37,6 +37,7 @@ namespace GlyssenTests
 			IIIJN,
 			JUD,
 			REV,
+			IIIJNSPLIT
 		}
 
 		private const string kTest = "test~~";
@@ -201,6 +202,12 @@ namespace GlyssenTests
 					book.LongName = "The Book of the Revelation of Saint John";
 					book.ShortName = "Revelation";
 					xmlDocument.LoadXml(Properties.Resources.TestREV);
+					break;
+				case TestBook.IIIJNSPLIT:
+					book.Code = "3JN";
+					book.LongName = "The Third Epistle of John";
+					book.ShortName = "3 John";
+					xmlDocument.LoadXml(Properties.Resources.Test3JNSplit);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException("testBook", testBook, null);

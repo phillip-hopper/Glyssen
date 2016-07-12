@@ -4,6 +4,7 @@ using System.Text;
 using Glyssen;
 using Glyssen.Bundle;
 using Glyssen.Character;
+using GlyssenTests.Properties;
 using NUnit.Framework;
 using SIL.Extensions;
 using SIL.Windows.Forms;
@@ -753,6 +754,19 @@ namespace GlyssenTests
 			expectedLine.Append(textLength);
 			Assert.AreEqual(expectedLine.ToString(),
 				ProjectExporter.GetTabSeparatedLine(ProjectExporter.GetExportDataForBlock(block, 0, "MRK", actor, null, true, includeSecondaryReferenceText)));
+		}
+
+		[Test]
+		public void GetExportData_SourceContainsVerseSplit_OutputFormattedCorrectly()
+		{
+			// currently we are treating a split as if it were a verse bridge
+			ControlCharacterVerseData.TabDelimitedCharacterVerseData = Resources.TestCharacterVerseOct2015;
+			CharacterDetailData.TabDelimitedCharacterDetailData = Resources.TestCharacterDetailOct2015;
+			var project = TestProject.CreateTestProject(TestProject.TestBook.IIIJNSPLIT);
+			var exporter = new ProjectExporter(project);
+			var data = exporter.GetExportData("3JN");
+			const string expected = "[2,3]";
+			Assert.AreEqual(expected, data[3][7].ToString().Substring(0, 5));
 		}
 	}
 }
